@@ -1,0 +1,61 @@
+# DEMO: Snyk SCA and SAST Scan with HTML Report Generation
+# Each scan runs ONCE: saves JSON, displays results, generates HTML report
+
+name: Snyk SCA and SAST Scan + HTML report
+
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * 0'  # Runs weekly on Sunday at midnight UTC
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  snyk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Java and Maven
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+
+      - name: Install snyk-to-html
+        run: npm install -g snyk-to-html
+
+      - name: Authenticate Snyk CLI
+        env:
+          SNYK_API: https://app.snyk.io/api  # SNYK-US-01 - Use https://api.us.snyk.io for SNYK-US-02
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+
+      - name: Resolve Maven dependencies
+        run: mvn dependency:resolve -DskipTests || true
+
+      - name: Run Snyk Code scan
+        continue-on-error: true
+        run: |
+          snyk code test --json | snyk-to-html -o snyk-code-report.html || true
+
+      - name: Run Snyk open source scan
+        continue-on-error: true
+        run: |
+          snyk test --all-projects --json | snyk-to-html -o snyk-sca-report.html || true
+
+      - name: Upload Snyk HTML reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: snyk-reports
+          path: |
+            snyk-code-report.html
+            snyk-sca-report.html
