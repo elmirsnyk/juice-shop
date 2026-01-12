@@ -35,8 +35,8 @@ jobs:
       - name: Authenticate Snyk CLI
         env:
           SNYK_API: https://app.snyk.io/api  # SNYK-US-01 - Use https://api.us.snyk.io for SNYK-US-02
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+          SNYK_TOKEN: ${{ secrets.ELMIR_TEST_SNYK }}
+        run: snyk auth ${{ secrets.ELMIR_TEST_SNYK }}
 
       - name: Resolve Maven dependencies
         run: mvn dependency:resolve -DskipTests || true
