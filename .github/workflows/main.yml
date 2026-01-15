@@ -7,7 +7,7 @@ name: Snyk SCA and SAST Scan + HTML report
 on:
   push:
     branches:
-      - main
+      - master
   schedule:
     - cron: '0 0 * * 0'  # Runs weekly on Sunday at midnight UTC
   workflow_dispatch:  # Allows manual triggering
