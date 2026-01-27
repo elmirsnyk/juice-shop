@@ -20,6 +20,7 @@ module.exports = function servePublicFiles () {
     }
   }
 
+  
   function verify (file, res, next) {
     if (file && (endsWithAllowlistedFileType(file) || (file === 'incident-support.kdbx'))) {
       file = insecurity.cutOffPoisonNullByte(file)
