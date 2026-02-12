@@ -44,8 +44,8 @@ jobs:
         id: snyk-scan
         uses: Probely/probely-github-action@main
         with:
-         api-key: ${{ secrets.PROBLEY_KEY }}
-         target-id: "2DmEAb82BHJF"
+         api-key: ${{ secrets.NEW_KEY_WEB_API }}
+         target-id: "246RnChxSm7x"
          region: "us"
          
       - name: Run Snyk open source scan
