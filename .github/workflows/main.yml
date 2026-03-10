@@ -16,6 +16,7 @@ jobs:
   snyk:
     runs-on: ubuntu-latest
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v3
           
@@ -38,7 +39,15 @@ jobs:
         continue-on-error: true
         run: |
           snyk code test --json | snyk-to-html -o snyk-code-report.html || true
-
+      
+      - name: Scan with Snyk API & Web
+        id: snyk-scan
+        uses: Probely/probely-github-action@main
+        with:
+         api-key: ${{ secrets.NEW_KEY_WEB_API }}
+         target-id: "246RnChxSm7x"
+         region: "us"
+         
       - name: Run Snyk open source scan
         continue-on-error: true
         run: |
