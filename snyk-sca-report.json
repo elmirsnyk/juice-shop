@@ -1,0 +1,5 @@
+{
+  "ok": false,
+  "error": "open /Users/elmirlekovic/Library/Caches/snyk/snyk-cli/1.1302.0.lock: operation not permitted",
+  "path": "/Users/elmirlekovic/elmirtest/juice-shop"
+}
