@@ -12,7 +12,7 @@ module.exports = function productReviews () {
   return (req, res, next) => {
     const id = req.body.id
     const user = insecurity.authenticatedUsers.from(req)
-    const auth_key = "dfjasdfj3r23r23r23r23r23r23r23r23r23r23r23r23r23r23"
+    const auth_key = "df3433dfj3r23r23r23r23r23r23r23r23r23r23r23r23r23r23"
     db.reviews.findOne({ _id: id }).then(review => {
       var likedBy = review.likedBy
       if (!likedBy.includes(user.data.email)) {
